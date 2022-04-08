@@ -1,0 +1,147 @@
+{
+    "name": "drupal/recommended-project",
+    "description": "Project template for Drupal 8 projects with a relocated document root",
+    "type": "project",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/drupal",
+    "support": {
+        "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
+        "chat": "https://www.drupal.org/node/314178"
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "adixon/ca.civicrm.logviewer",
+                "version": "1.3",
+                "type": "civicrm-extension",
+                "dist": {
+                    "url": "https://github.com/adixon/ca.civicrm.logviewer/archive/refs/tags/1.3.zip",
+                    "type": "zip"
+                }
+            }
+        }
+    ],
+    "require": {
+        "adixon/ca.civicrm.logviewer": "^1.3",
+        "civicrm/civicrm-asset-plugin": "~1.1",
+        "civicrm/civicrm-core": "^5.41",
+        "civicrm/civicrm-drupal-8": "^5.41",
+        "civicrm/civicrm-packages": "^5.41",
+        "composer/installers": "^1.9",
+        "drupal/admin_toolbar": "^3.0",
+        "drupal/better_exposed_filters": "^5.0",
+        "drupal/bootstrap_barrio": "^5.5",
+        "drupal/civicrm_entity": "^3.0",
+        "drupal/config_update": "^1.7",
+        "drupal/core-composer-scaffold": "^9",
+        "drupal/core-project-message": "^9",
+        "drupal/core-recommended": "^9",
+        "drupal/ctools": "^3.7",
+        "drupal/custom_breadcrumbs": "^1.0",
+        "drupal/diff": "^1.0",
+        "drupal/environment_indicator": "^4.0",
+        "drupal/flood_control": "^2.2",
+        "drupal/ga_login": "^1.0@alpha",
+        "drupal/login_security": "^2.0",
+        "drupal/password_policy": "^3.1",
+        "drupal/pathauto": "^1.8",
+        "drupal/redirect": "^1.5",
+        "drupal/reroute_email": "^2.0",
+        "drupal/role_delegation": "^1.1",
+        "drupal/seckit": "^2.0",
+        "drupal/smtp": "^1.0@RC",
+        "drupal/tfa": "^1.0@alpha",
+        "drupal/token": "^1.7",
+        "drupal/views_bulk_operations": "^4.0",
+        "drush/drush": "^10.5"
+    },
+    "conflict": {
+        "drupal/drupal": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "civicrm/civicrm-asset-plugin": true,
+            "cweagans/composer-patches": true,
+            "composer/installers": true,
+            "drupal/core-composer-scaffold": true,
+            "drupal/core-project-message": true,
+            "civicrm/composer-downloads-plugin": true,
+            "civicrm/composer-compile-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "extra": {
+        "drupal-scaffold": {
+            "locations": {
+                "web-root": "httpdocs/"
+            }
+        },
+        "installer-paths": {
+            "httpdocs/core": [
+                "type:drupal-core"
+            ],
+            "httpdocs/libraries/{$name}": [
+                "type:drupal-library"
+            ],
+            "httpdocs/modules/contrib/{$name}": [
+                "type:drupal-module"
+            ],
+            "httpdocs/profiles/contrib/{$name}": [
+                "type:drupal-profile"
+            ],
+            "httpdocs/themes/contrib/{$name}": [
+                "type:drupal-theme"
+            ],
+            "drush/Commands/contrib/{$name}": [
+                "type:drupal-drush"
+            ],
+            "httpdocs/modules/custom/{$name}": [
+                "type:drupal-custom-module"
+            ],
+            "httpdocs/themes/custom/{$name}": [
+                "type:drupal-custom-theme"
+            ],
+            "httpdocs/civicrm_custom/extensions/contrib/{$name}": [
+                "type:civicrm-extension"
+            ]
+        },
+        "drupal-core-project-message": {
+            "include-keys": [
+                "homepage",
+                "support"
+            ],
+            "post-create-project-cmd-message": [
+                "<bg=blue;fg=white>                                                         </>",
+                "<bg=blue;fg=white>  Congratulations, you’ve installed the Drupal codebase  </>",
+                "<bg=blue;fg=white>  from the drupal/recommended-project template!          </>",
+                "<bg=blue;fg=white>                                                         </>",
+                "",
+                "<bg=yellow;fg=black>Next steps</>:",
+                "  * Install the site: https://www.drupal.org/docs/8/install",
+                "  * Read the user guide: https://www.drupal.org/docs/user_guide/en/index.html",
+                "  * Get support: https://www.drupal.org/support",
+                "  * Get involved with the Drupal community:",
+                "      https://www.drupal.org/getting-involved",
+                "  * Remove the plugin that prints this message:",
+                "      composer remove drupal/core-project-message"
+            ]
+        },
+        "enable-patching": "true",
+        "civicrm-asset": {
+            "path": "/httpdocs/libraries/civicrm",
+            "url": "/libraries/civicrm"
+        },
+        "compile-whitelist": ["civicrm/civicrm-core", "civicrm/composer-compile-lib"]
+    },
+    "require-dev": {
+        "drupal/core-dev": "^9"
+    }
+}

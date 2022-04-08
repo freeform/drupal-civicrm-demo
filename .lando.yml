@@ -1,0 +1,40 @@
+name: d9civi
+recipe: drupal9
+config:
+  webroot: httpdocs
+  php: 7.4
+services:
+  civicrm:
+    type: mysql
+    creds:
+      user: civi
+      password: civi
+      database: civi
+    portforward: true
+  phpmyadmin:
+    type: phpmyadmin
+    hosts:
+      - database
+      - civicrm
+  mailhog:
+    type: mailhog
+    hogfrom:
+      - appserver
+  appserver:
+    build:
+      - composer install
+      - curl -LsS https://download.civicrm.org/cv/cv.phar -o /usr/local/bin/cv
+      - chmod +x /usr/local/bin/cv
+      - chmod +x /usr/local/bin/composer
+proxy:
+  mailhog:
+    - mail.d9civi.lndo.site
+  phpmyadmin:
+    - db.d9civi.lndo.site
+tooling:
+  cv:
+    service: appserver
+    cmd: /usr/local/bin/cv
+  drush:
+    service: appserver
+    cmd: drush --root=/app/httpdocs --uri=https://d9civi.lndo.site
