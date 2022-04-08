@@ -1,0 +1,24 @@
+---
+d9civi:
+  vars:
+    ansible_host: remotedomain.ca
+    ansible_user: sshuser
+    dump_destination: ~/drush-backups/
+    local_backup_destination: ~/repos/d9civi/
+  hosts:
+    d7:
+      site_root: ~/httpdocs/
+      web_root: ~/httpdocs/
+      dump_prefix: d7
+    dev:
+      site_root: ~/d9/
+      web_root: ~/d9/httpdocs/
+      dump_prefix: dev
+    staging:
+      site_root: ~/staging/
+      web_root: ~/staging/httpdocs/
+      dump_prefix: staging
+    production:
+      site_root: ~/www/
+      web_root: ~/www/httpdocs/
+      dump_prefix: prod
