@@ -1,7 +1,9 @@
 #!/bin/bash
 
 #
-# PoormansDeploy Tool
+# PoormansDeploy Tool - Drupal 9
+#
+# Version 0.1
 #
 # Automate various steps to ensure a consistent deployment
 # process on Beanstalk.
@@ -10,11 +12,17 @@
 #
 # By default it will pull the code for the revision deployed and then clear
 # the drupal cache.
-# If the phrase: "rebuild this please" is in the deployment then it will also:
-# * make a db backup, ensure there are no uncommited config changes
-# * run composer install
-# * run update database and hooks
-# * import configuration
+# 1. If the phrase "update code only please" is in the deployment comment, then
+#    it will also:
+#    * make a db backup, ensure there are no uncommited config changes
+#    * run composer install
+#    * run update database and hooks
+# 2. If: "rebuild this please" then it will also:
+#    * import configuration
+# 3. If "refresh civicrm from live please |/var/www/httpdocs":
+#    * This is not working yet.
+# 4. If "rebuild civicrm localise please |5.41.2" (or whatever version):
+#    * fetch the localisation files that match the version and install
 #
 
 # @todo decide whether to run composer install on production or not. And if not,
@@ -23,11 +31,10 @@
 # https://docs.gitlab.com/ee/ci/examples/laravel_with_gitlab_and_envoy/#installing-dependencies-with-composer
 
 # Beanstalk command:
-# %REMOTE_PATH%.poormansdeploy/main.sh %AUTO?% %TIMESTAMP_UTC% %REVISION% %REMOTE_PATH% "%COMMENT%" ENV
+#
+# %REMOTE_PATH%/.poormansdeploy/main.sh %AUTO?% %TIMESTAMP_UTC% %REVISION% %REMOTE_PATH% "%COMMENT%" ENV
+#
 # (ENV can be DEV, STAGING. Anything else will be assumed to be LIVE and thus restricted.)
-
-# @todo
-# Move the deployment to a build folder so that we don't have to use composer on live.
 
 set -o errexit
 
@@ -40,15 +47,17 @@ ENV=$6
 WEB_DIR="$REMOTE_PATH/httpdocs"
 DRUSH="$REMOTE_PATH/vendor/bin/drush"
 
+# @todo
+# Move the deployment to a build folder so that we don't have to use composer on live.
 # BUILD_DIR="$REMOTE_PATH/"
 
 cd "$REMOTE_PATH"
 
 # Output information about the site to aid in debugging failed deployments.
-"$DRUSH" --root="$WEB_DIR" core:status
+"$DRUSH" core:status
 
-if [[ $AUTO_DEPLOY == "0" ]] && [[ $COMMENT =~ "rebuild civicrm please" ]]; then
-  ./.poormansdeploy/civicrm.sh "$COMMENT"
+if [[ $AUTO_DEPLOY == "0" ]] && [[ $COMMENT =~ "rebuild civicrm localise please |" ]]; then
+  ./.poormansdeploy/civicrm-localise.sh "$COMMENT"
 fi
 
 if [[ $AUTO_DEPLOY == "0" ]] && [[ $COMMENT =~ "rebuild this please" ]]; then
@@ -74,6 +83,7 @@ if [[ $AUTO_DEPLOY == "0" ]] && [[ $COMMENT =~ "rebuild this please" || $COMMENT
 fi
 
 # If it's a git repo pull the latest code.
+# Otherwise ignore - SFTP mode will deploy files.
 if git rev-parse --git-dir > /dev/null 2>&1; then
 
   git checkout master
@@ -81,9 +91,9 @@ if git rev-parse --git-dir > /dev/null 2>&1; then
   git checkout $REVISION
 fi
 
-if [[ $AUTO_DEPLOY == "0" ]] && [[ $COMMENT =~ "refresh civicrm please |" ]] && [[ $ENV == DEV || $ENV == STAGING ]]; then
-  ./.poormansdeploy/civicrm-refresh.sh "$COMMENT"
-fi
+# if [[ $AUTO_DEPLOY == "0" ]] && [[ $COMMENT =~ "refresh civicrm from live please |" ]] && [[ $ENV == DEV || $ENV == STAGING ]]; then
+#   ./.poormansdeploy/civicrm-refresh.sh "$COMMENT"
+# fi
 
 if [[ $AUTO_DEPLOY == "0" ]] && [[ $COMMENT =~ "rebuild this please" || $COMMENT =~ "update code only please" ]]; then
   # Ensure we can write to default folder.
@@ -120,8 +130,10 @@ if [[ $AUTO_DEPLOY == "0" ]] && [[ $COMMENT =~ "rebuild this please" ]]; then
 fi
 
 if [[ $AUTO_DEPLOY == "0" ]] && [[ $COMMENT =~ "rebuild this please" || $COMMENT =~ "update code only please" ]]; then
+
   # Disable maintenance mode.
   "$DRUSH"  state:set system.maintenance_mode 0
+
 fi
 
 # Rebuild caches.
@@ -138,8 +150,8 @@ if [[ $AUTO_DEPLOY == "0" ]] && [[ $COMMENT =~ "rebuild this please" || $COMMENT
   chmod u-w $(pwd)/httpdocs/sites/default
 fi
 
-if [[ $AUTO_DEPLOY == "0" ]] && [[ $COMMENT =~ "test this please" ]] && [[ $ENV == DEV || $ENV == STAGING ]]; then
+#if [[ $AUTO_DEPLOY == "0" ]] && [[ $COMMENT =~ "test this please" ]] && [[ $ENV == DEV || $ENV == STAGING ]]; then
   # @todo Run automated tests
   # Only on staging or dev
-  php ~./web/core/scripts/run-tests.sh --all
-fi
+  # php ~./web/core/scripts/run-tests.sh --all
+#fi
