@@ -26,6 +26,8 @@ services:
       - curl -LsS https://download.civicrm.org/cv/cv.phar -o /usr/local/bin/cv
       - chmod +x /usr/local/bin/cv
       - chmod +x /usr/local/bin/composer
+      - curl -LsS https://download.civicrm.org/civix/civix.phar -o /usr/local/bin/civix
+      - chmod +x /usr/local/bin/civix
 proxy:
   mailhog:
     - mail.d9civi.lndo.site
@@ -35,6 +37,9 @@ tooling:
   cv:
     service: appserver
     cmd: /usr/local/bin/cv
+  civix:
+    service: appserver
+    cmd: /usr/local/bin/civix
   drush:
     service: appserver
     cmd: drush --root=/app/httpdocs --uri=https://d9civi.lndo.site
