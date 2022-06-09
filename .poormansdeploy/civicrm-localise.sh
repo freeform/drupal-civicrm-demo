@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #
-# Deploy CiviCRM
+# Deploy CiviCRM localisation files
 #
 # See https://docs.civicrm.org/installation/en/latest/drupal8
 
