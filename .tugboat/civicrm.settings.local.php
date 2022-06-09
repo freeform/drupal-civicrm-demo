@@ -41,40 +41,45 @@ $civicrm_root = getenv('TUGBOAT_ROOT') . '/vendor/civicrm/civicrm-core/';
 
 define( 'CIVICRM_TEMPLATE_COMPILEDIR', getenv('TUGBOAT_ROOT') . '/private/civicrm/templates_c');
 
-$civicrm_paths['civicrm.files']['url'] = getenv('TUGBOAT_DEFAULT_SERVICE_URL') . 'sites/default/files/civicrm';
+$site_url = getenv('TUGBOAT_DEFAULT_SERVICE_URL');
+define('CIVICRM_UF_BASEURL', $site_url);
+
+$civicrm_paths['cms.root']['url'] = $site_url;
+$civicrm_paths['cms.root']['path'] = getenv('TUGBOAT_ROOT') . '/httpdocs';
+$civicrm_paths['civicrm.files']['url'] = $site_url . 'sites/default/files/civicrm';
 $civicrm_paths['civicrm.files']['path'] = getenv('TUGBOAT_ROOT') . '/httpdocs/sites/default/files/civicrm';
+$civicrm_paths['civicrm.private']['path'] = getenv('TUGBOAT_ROOT') . '/private/civicrm';
 
 /**
  * URL settings
  */
-define('CIVICRM_UF_BASEURL', getenv('TUGBOAT_DEFAULT_SERVICE_URL'));
 
 // Override the Temporary Files directory.
-$civicrm_setting['domain']['uploadDir'] = getenv('TUGBOAT_ROOT') . '/httpdocs/sites/default/files/civicrm/upload/' ;
+$civicrm_setting['domain']['uploadDir'] = '[civicrm.files]/upload/';
 
 // Override the custom files upload directory.
-$civicrm_setting['domain']['customFileUploadDir'] = getenv('TUGBOAT_ROOT') . '/httpdocs/sites/default/files/civicrm/custom/';
+$civicrm_setting['domain']['customFileUploadDir'] = '[civicrm.files]/custom/';
 
 // Override the images directory.
-$civicrm_setting['domain']['imageUploadDir'] = getenv('TUGBOAT_ROOT') . '/httpdocs/sites/default/files/civicrm/persist/contribute/' ;
+$civicrm_setting['domain']['imageUploadDir'] = '[civicrm.files]/persist/contribute/';
 
 // Override the custom templates directory.
-$civicrm_setting['domain']['customTemplateDir'] = getenv('TUGBOAT_ROOT') . '/httpdocs/civicrm_custom/custom_tpl';
+$civicrm_setting['domain']['customTemplateDir'] = '[cms.root]/civicrm_custom/custom_tpl';
 
 // Override the Custom php path directory.
-$civicrm_setting['domain']['customPHPPathDir'] = getenv('TUGBOAT_ROOT') . '/httpdocs/civicrm_custom/custom_php';
+$civicrm_setting['domain']['customPHPPathDir'] = '[cms.root]/civicrm_custom/custom_php';
 
 // Override the extensions directory.
-$civicrm_setting['domain']['extensionsDir'] = getenv('TUGBOAT_ROOT') . '/httpdocs/civicrm_custom/extensions';
+$civicrm_setting['domain']['extensionsDir'] = '[cms.root]/civicrm_custom/extensions';
 
 // Override the extensions resource URL
-$civicrm_setting['domain']['extensionsURL'] = CIVICRM_UF_BASEURL . 'civicrm_custom/extensions/';
+$civicrm_setting['domain']['extensionsURL'] = '[cms.root]/civicrm_custom/extensions/';
 
 // Override the resource url
-$civicrm_setting['domain']['userFrameworkResourceURL'] = CIVICRM_UF_BASEURL . 'libraries/civicrm/core';
+$civicrm_setting['domain']['userFrameworkResourceURL'] = '[cms.root]/libraries/civicrm/core';
 
 // Override the Image Upload URL (System Settings > Resource URLs)
-$civicrm_setting['domain']['imageUploadURL'] = CIVICRM_UF_BASEURL . 'sites/default/files/civicrm/persist/contribute';
+$civicrm_setting['domain']['imageUploadURL'] = '[civicrm.files]/persist/contribute';
 
 // Disable automatic download / installation of extensions
 $civicrm_setting['domain']['ext_repo_url'] = false;
@@ -85,6 +90,13 @@ $civicrm_setting['domain']['verifySSL'] = false;
 
 // Logging
 $civicrm_setting['domain']['logging'] = 0;
+
+// Mail
+$civicrm_setting['domain']['allow_mail_from_logged_in_contact'] = 0;
+
+// Mailer
+// SMTP = 0, Sendmail = 1, Disable = 2, mail() = 3, Redirect to db = 5
+$civicrm_setting['domain']['mailing_backend']['outBound_option'] = 3;
 
 /**
  * SMARTY Compile Check:
