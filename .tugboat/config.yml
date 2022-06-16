@@ -50,6 +50,12 @@ services:
         - cp "${TUGBOAT_ROOT}/.tugboat/settings.local.php" "${DOCROOT}/sites/default/"
         - cp "${TUGBOAT_ROOT}/.tugboat/civicrm.settings.local.php" "${DOCROOT}/sites/default/"
 
+        # Install Drupal
+        - drush site-install --account-name=admin --account-pass=123somethingpencil
+
+        # Install CiviCRM
+        - cv core:install --cwd="./httpdocs" --cms-base-url="${TUGBOAT_DEFAULT_SERVICE_URL}" -m -v --db=mysql://tugboat:tugboat@civicrm:3306/tugboat
+
         # Protect settings files
         - chmod 0444 ${DOCROOT}/sites/default/settings.*
         - chmod 0444 ${DOCROOT}/sites/default/civicrm.settings.*
