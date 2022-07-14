@@ -1,0 +1,13 @@
+{
+  "name": "drupal9-civi",
+  "version": "0.1.0",
+  "description": "Cypress testing for Drupal 9 and Civi.",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "latest"
+  }
+}
