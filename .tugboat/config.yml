@@ -51,8 +51,7 @@ services:
         - composer install
 
         # Install Drupal
-        - export PATH=/var/lib/tugboat/vendor/bin:$PATH
-        - drush site-install --account-name=admin --account-pass=123somethingpencil
+        - vendor/bin/drush site-install --account-name=admin --account-pass=123somethingpencil
 
         # Install CiviCRM
         - cv core:install --cwd="./httpdocs" --cms-base-url="${TUGBOAT_DEFAULT_SERVICE_URL}" -m -v -K --db=mysql://tugboat:tugboat@civicrm:3306/tugboat
