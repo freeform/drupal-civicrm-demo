@@ -1,11 +1,13 @@
-Drupal 9 - CiviCRM Template
+Drupal - CiviCRM Demo
 =======================
 
-A template for Drupal 9 and CiviCRM sites.
+A demo Drupal and CiviCRM site. Can be deployed on Tugboatqa.com.
 
 STEPS
 -----
 
+`lando drush si --db-url=mysql://drupal10:drupal10@database:3306/drupal10 --account-pass=mom -y`
+
 `lando cv core:uninstall --cwd="./httpdocs"`
 
-`lando cv core:install --cwd="./httpdocs" --cms-base-url="https://d9-civi.lndo.site" -m -v --db=mysql://civi:civi@civicrm:3306/civi`
+`lando cv core:install --cwd="./httpdocs" --cms-base-url="https://dcivi.lndo.site" -m -v --db=mysql://drupal10:drupal10@database:3306/civicrm`

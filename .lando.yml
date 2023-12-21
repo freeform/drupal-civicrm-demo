@@ -1,21 +1,19 @@
-name: d9civi
-recipe: drupal9
+name: dcivi
+recipe: drupal10
 config:
   webroot: httpdocs
-  php: 7.4
+  php: 8.1
 services:
-  civicrm:
+  database:
     type: mysql
-    creds:
-      user: civi
-      password: civi
-      database: civi
-    portforward: true
+    run_as_root:
+      - >-
+        mysql -uroot -e "CREATE DATABASE IF NOT EXISTS civicrm; GRANT ALL
+        PRIVILEGES ON civicrm.* TO 'drupal10'@'%' IDENTIFIED BY 'drupal10';"
   phpmyadmin:
     type: phpmyadmin
     hosts:
       - database
-      - civicrm
   mailhog:
     type: mailhog
     hogfrom:
@@ -23,16 +21,18 @@ services:
   appserver:
     build:
       - composer install
-      - curl -LsS https://download.civicrm.org/cv/cv.phar -o /usr/local/bin/cv
+      - 'curl -LsS https://download.civicrm.org/cv/cv.phar -o /usr/local/bin/cv'
       - chmod +x /usr/local/bin/cv
       - chmod +x /usr/local/bin/composer
-      - curl -LsS https://download.civicrm.org/civix/civix.phar -o /usr/local/bin/civix
+      - >-
+        curl -LsS https://download.civicrm.org/civix/civix.phar -o
+        /usr/local/bin/civix
       - chmod +x /usr/local/bin/civix
 proxy:
   mailhog:
-    - mail.d9civi.lndo.site
+    - mail.dcivi.lndo.site
   phpmyadmin:
-    - db.d9civi.lndo.site
+    - db.dcivi.lndo.site
 tooling:
   cv:
     service: appserver
@@ -42,4 +42,4 @@ tooling:
     cmd: /usr/local/bin/civix
   drush:
     service: appserver
-    cmd: drush --root=/app/httpdocs --uri=https://d9civi.lndo.site
+    cmd: 'drush --root=/app/httpdocs --uri=https://dcivi.lndo.site'

@@ -50,3 +50,5 @@ httpdocs/sites/simpletest
 
 # Ignore SimpleTest multi-site environment.
 # simpletest
+/.editorconfig
+/.gitattributes
