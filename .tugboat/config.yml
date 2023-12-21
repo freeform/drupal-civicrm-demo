@@ -75,18 +75,18 @@ services:
         - find "${TUGBOAT_ROOT}/private" -type d -exec chmod 2775 {} \;
         - find "${TUGBOAT_ROOT}/private" -type f -exec chmod 0664 {} \;
       build:
-        - vendor/bin/drush cache:rebuild
-        - vendor/bin/drush config:import -y
-        - vendor/bin/drush updatedb -y
+        #- vendor/bin/drush cache:rebuild
+        #- vendor/bin/drush config:import -y
+        #- vendor/bin/drush updatedb -y
 
         # Upgrade CiviCRM core if upgraded
-        - cv upgrade:db --cwd="${DOCROOT}"
+        #- cv upgrade:db --cwd="${DOCROOT}"
         # Upgrade extensions
-        - cv ext:upgrade-db --cwd="${DOCROOT}"
+        #- cv ext:upgrade-db --cwd="${DOCROOT}"
         # Flush Civi cache (will also rebuild managed entities)
-        - cv flush --triggers --cwd="${DOCROOT}"
+        #- cv flush --triggers --cwd="${DOCROOT}"
 
-        - vendor/bin/drush cache:rebuild
+        #- vendor/bin/drush cache:rebuild
   # The 'drupal' key acts as the hostname.
   drupal:
     image: tugboatqa/mariadb:10
