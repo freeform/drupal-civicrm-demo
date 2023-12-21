@@ -1,8 +1,8 @@
 services:
   php:
-    image: tugboatqa/php:7-apache
+    image: tugboatqa/php:8.1-apache
     default: true
-    depends: drupal9
+    depends: drupal
     commands:
       init:
         # Install php extensions and mod-rewrite
@@ -54,7 +54,7 @@ services:
         - drush site-install --account-name=admin --account-pass=123somethingpencil
 
         # Install CiviCRM
-        - cv core:install --cwd="./httpdocs" --cms-base-url="${TUGBOAT_DEFAULT_SERVICE_URL}" -m -v --db=mysql://tugboat:tugboat@civicrm:3306/tugboat
+        - cv core:install --cwd="./httpdocs" --cms-base-url="${TUGBOAT_DEFAULT_SERVICE_URL}" -m -v -K --db=mysql://tugboat:tugboat@civicrm:3306/tugboat
 
         # Protect settings files
         - chmod 0444 ${DOCROOT}/sites/default/settings.*
@@ -91,8 +91,8 @@ services:
         - cv flush --triggers --cwd="${DOCROOT}"
 
         - vendor/bin/drush cache:rebuild
-  # The 'drupal9' key acts as the hostname.
-  drupal9:
+  # The 'drupal' key acts as the hostname.
+  drupal:
     image: tugboatqa/mariadb:10
 
     # A set of commands to run while building this service
@@ -106,9 +106,9 @@ services:
         # SSH key found in the Tugboat Repository configuration must be
         # copied to the external server in order to use scp.
         # Drupal
-        # - scp dev@freeform.dev:~/private/xmass/drupal9.sql.gz /tmp/drupal9.sql.gz
-        # - zcat /tmp/drupal9.sql.gz | mysql tugboat
-        # - rm /tmp/drupal9.sql.gz
+        # - scp dev@freeform.dev:~/private/drupal.sql.gz /tmp/drupal.sql.gz
+        # - zcat /tmp/drupal.sql.gz | mysql tugboat
+        # - rm /tmp/drupal.sql.gz
   civicrm:
     image: tugboatqa/mariadb:10
     # A set of commands to run while building this service
@@ -121,6 +121,6 @@ services:
         # Drop database and recreate so no tables hanging around.
         # - mysql -e 'DROP DATABASE IF EXISTS tugboat; CREATE DATABASE tugboat;'
         # CiviCRM
-        # - scp dev@freeform.dev:~/private/xmass/civicrm.sql.gz /tmp/civicrm.sql.gz
+        # - scp dev@freeform.dev:~/private/civicrm.sql.gz /tmp/civicrm.sql.gz
         # - zcat /tmp/civicrm.sql.gz | mysql tugboat
         # - rm /tmp/civicrm.sql.gz

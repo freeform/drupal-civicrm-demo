@@ -10,4 +10,4 @@ STEPS
 
 `lando cv core:uninstall --cwd="./httpdocs"`
 
-`lando cv core:install --cwd="./httpdocs" --cms-base-url="https://dcivi.lndo.site" -m -v --db=mysql://drupal10:drupal10@database:3306/civicrm`
+`lando cv core:install --cwd="./httpdocs" --cms-base-url="https://dcivi.lndo.site" -m -v -K --db=mysql://drupal10:drupal10@database:3306/civicrm`
