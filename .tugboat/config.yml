@@ -16,10 +16,6 @@ services:
         # Link the document root to the expected path.
         - ln -snf $TUGBOAT_ROOT/httpdocs $DOCROOT
 
-        # Install drush
-        - wget -O /usr/local/bin/drush https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar
-        - chmod +x /usr/local/bin/drush
-
         # Set memory limit
         - echo "memory_limit = 2G" >> /usr/local/etc/php/conf.d/my-php.ini
 
@@ -50,6 +46,10 @@ services:
         - cp "${TUGBOAT_ROOT}/.tugboat/settings.local.php" "${DOCROOT}/sites/default/"
         - cp "${TUGBOAT_ROOT}/.tugboat/civicrm.settings.local.php" "${DOCROOT}/sites/default/"
 
+        # Install/update packages managed by composer, including drush.
+        #- composer install --optimize-autoloader
+        - composer install
+
         # Install Drupal
         - drush site-install --account-name=admin --account-pass=123somethingpencil
 
@@ -59,10 +59,6 @@ services:
         # Protect settings files
         - chmod 0444 ${DOCROOT}/sites/default/settings.*
         - chmod 0444 ${DOCROOT}/sites/default/civicrm.settings.*
-
-        # Install/update packages managed by composer, including drush.
-        #- composer install --optimize-autoloader
-        - composer install
 
         # Make file directories web-writable.
         - chgrp -R www-data "${DOCROOT}/sites/default/files"
