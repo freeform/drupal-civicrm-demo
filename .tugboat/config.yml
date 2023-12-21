@@ -51,6 +51,7 @@ services:
         - composer install
 
         # Install Drupal
+        - export PATH=/var/lib/tugboat/vendor/bin:$PATH
         - drush site-install --account-name=admin --account-pass=123somethingpencil
 
         # Install CiviCRM
