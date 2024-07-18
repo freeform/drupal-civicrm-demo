@@ -17,10 +17,10 @@
             "type": "package",
             "package": {
                 "name": "adixon/ca.civicrm.logviewer",
-                "version": "1.3",
+                "version": "2.1.0",
                 "type": "civicrm-extension",
                 "dist": {
-                    "url": "https://github.com/adixon/ca.civicrm.logviewer/archive/refs/tags/1.3.zip",
+                    "url": "https://github.com/adixon/ca.civicrm.logviewer/archive/2.1.0.zip",
                     "type": "zip"
                 }
             }
@@ -29,22 +29,85 @@
             "type": "package",
             "package": {
                 "name": "civicrm/finsburypark",
-                "version": "0.18",
+                "version": "0.22",
                 "type": "civicrm-extension",
                 "dist": {
-                    "url": "https://lab.civicrm.org/extensions/finsburypark/-/archive/0.18/finsburypark-0.18.zip",
+                    "url": "https://lab.civicrm.org/extensions/finsburypark/-/archive/0.22/finsburypark-0.22.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "civicrm/cdntaxreceipts",
+                "version": "1.9.1",
+                "type": "civicrm-extension",
+                "dist": {
+                    "url": "https://lab.civicrm.org/extensions/cdntaxreceipts/-/archive/1.9.1/cdntaxreceipts-1.9.1.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "civicrm/sparkpost",
+                "version": "1.7",
+                "type": "civicrm-extension",
+                "dist": {
+                    "url": "https://lab.civicrm.org/extensions/sparkpost/-/archive/1.7/sparkpost-1.7.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "civicrm/sending_domain",
+                "version": "1.0.2",
+                "type": "civicrm-extension",
+                "dist": {
+                    "url": "https://lab.civicrm.org/extensions/sending_domain/-/archive/1.0.2/sending-1.0.2.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "fuzionnz/transactional",
+                "version": "1.0.7",
+                "type": "civicrm-extension",
+                "dist": {
+                    "url": "https://github.com/fuzionnz/nz.co.fuzion.transactional/archive/v1.0.7.zip",
+                    "type": "zip"
+                }
+            }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "veda-consulting-company/uk.co.vedaconsulting.mosaico",
+                "version": "3.5",
+                "type": "civicrm-extension",
+                "dist": {
+                    "url": "https://download.civicrm.org/extension/uk.co.vedaconsulting.mosaico/3.5.1709296836/uk.co.vedaconsulting.mosaico-3.5.1709296836.zip",
                     "type": "zip"
                 }
             }
         }
     ],
     "require": {
-        "adixon/ca.civicrm.logviewer": "^1.3",
+        "adixon/ca.civicrm.logviewer": "^2.1",
+        "civicrm/cdntaxreceipts": "^1.9",
         "civicrm/civicrm-asset-plugin": "~1.1",
-        "civicrm/civicrm-core": "^5.67.0",
-        "civicrm/civicrm-drupal-8": "^5.67.0",
-        "civicrm/civicrm-packages": "^5.67.0",
-        "civicrm/finsburypark": "^0.18",
+        "civicrm/civicrm-core": "^5.75.1",
+        "civicrm/civicrm-drupal-8": "^5.75.1",
+        "civicrm/civicrm-packages": "^5.75.1",
+        "civicrm/finsburypark": "^0.22.0",
+        "civicrm/sending_domain": "^1.0",
+        "civicrm/sparkpost": "^1.7",
         "composer/installers": "^2.0",
         "drupal/admin_toolbar": "^3.4",
         "drupal/bootstrap_barrio": "^5.5",
@@ -66,7 +129,9 @@
         "drupal/tfa": "^1.3",
         "drupal/token": "^1.13",
         "drupal/views_bulk_operations": "^4.2",
-        "drush/drush": "^12.4"
+        "drush/drush": "^12.4",
+        "fuzionnz/transactional": "^1.0",
+        "veda-consulting-company/uk.co.vedaconsulting.mosaico": "^3.5"
     },
     "conflict": {
         "drupal/drupal": "*"
@@ -149,7 +214,7 @@
         },
         "enable-patching": "true",
         "civicrm-asset": {
-            "path": "/httpdocs/libraries/civicrm",
+            "path": "httpdocs/libraries/civicrm",
             "url": "/libraries/civicrm"
         },
         "compile-whitelist": [
