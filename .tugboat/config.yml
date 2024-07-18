@@ -75,29 +75,35 @@ services:
         - find "${TUGBOAT_ROOT}/private" -type d -exec chmod 2775 {} \;
         - find "${TUGBOAT_ROOT}/private" -type f -exec chmod 0664 {} \;
       build:
-        #- vendor/bin/drush cache:rebuild
+        - vendor/bin/drush cache:rebuild
         #- vendor/bin/drush config:import -y
         #- vendor/bin/drush updatedb -y
 
         # Upgrade CiviCRM core if upgraded
-        #- cv upgrade:db --cwd="${DOCROOT}"
+        - cv upgrade:db --cwd="${DOCROOT}"
         # Upgrade extensions
         #- cv ext:upgrade-db --cwd="${DOCROOT}"
         # Flush Civi cache (will also rebuild managed entities)
-        #- cv flush --triggers --cwd="${DOCROOT}"
+        - cv flush --triggers --cwd="${DOCROOT}"
 
         #- vendor/bin/drush cache:rebuild
   # The 'drupal' key acts as the hostname.
   drupal:
-    image: tugboatqa/mariadb:10
+    image: tugboatqa/mariadb:10.5
 
     # A set of commands to run while building this service
-    # commands:
+    commands:
+      # Configure the server for the site to run on.
+      init:
+        # Increase the allowed packet size to 512MB.
+        - mysql -e "SET GLOBAL max_allowed_packet=536870912;"
+        # Ensure this packet size persists even if MySQL restarts.
+        - echo "max_allowed_packet=536870912" >> /etc/mysql/conf.d/tugboat.cnf
       # Commands that import files, databases,  or other assets. When an
       # existing preview is refreshed, the build workflow starts here,
       # skipping the init step, because the results of that step will
       # already be present.
-      # update:
+      update: []
         # Copy a database dump from an external server. The public
         # SSH key found in the Tugboat Repository configuration must be
         # copied to the external server in order to use scp.
@@ -105,18 +111,26 @@ services:
         # - scp dev@freeform.dev:~/private/drupal.sql.gz /tmp/drupal.sql.gz
         # - zcat /tmp/drupal.sql.gz | mysql tugboat
         # - rm /tmp/drupal.sql.gz
+      build: []
   civicrm:
-    image: tugboatqa/mariadb:10
+    image: tugboatqa/mariadb:10.5
     # A set of commands to run while building this service
-    # commands:
+    commands:
+      # Configure the server for the site to run on.
+      init:
+        # Increase the allowed packet size to 512MB.
+        - mysql -e "SET GLOBAL max_allowed_packet=536870912;"
+        # Ensure this packet size persists even if MySQL restarts.
+        - echo "max_allowed_packet=536870912" >> /etc/mysql/conf.d/tugboat.cnf
       # Commands that import files, databases,  or other assets. When an
       # existing preview is refreshed, the build workflow starts here,
       # skipping the init step, because the results of that step will
       # already be present.
-      # update:
+      update: []
         # Drop database and recreate so no tables hanging around.
         # - mysql -e 'DROP DATABASE IF EXISTS tugboat; CREATE DATABASE tugboat;'
         # CiviCRM
         # - scp dev@freeform.dev:~/private/civicrm.sql.gz /tmp/civicrm.sql.gz
         # - zcat /tmp/civicrm.sql.gz | mysql tugboat
         # - rm /tmp/civicrm.sql.gz
+      build: []
