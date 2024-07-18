@@ -6,8 +6,10 @@ $databases['default']['default'] = array(
   'prefix' => '',
   'host' => 'drupal',
   'port' => '3306',
-  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+  'isolation_level' => 'READ COMMITTED',
   'driver' => 'mysql',
+  'namespace' => 'Drupal\\mysql\\Driver\\Database\\mysql',
+  'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
 );
 
 $databases['civicrm']['default'] = array(
@@ -17,8 +19,10 @@ $databases['civicrm']['default'] = array(
   'prefix' => '',
   'host' => 'civicrm',
   'port' => '3306',
-  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+  'isolation_level' => 'READ COMMITTED',
   'driver' => 'mysql',
+  'namespace' => 'Drupal\\mysql\\Driver\\Database\\mysql',
+  'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
 );
 
 // Use the TUGBOAT_REPO_ID to generate a hash salt for Tugboat sites.
